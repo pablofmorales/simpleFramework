@@ -30,6 +30,15 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $rowset);
     }
 
+    public function testGivenAnInexistentIdSHouldReturnEmpty()
+    {
+        $driver = new Framework\Storage\Drivers\Session();
+        $rowset = $driver->fetch('dumyCollection', 6);
+
+        $this->assertEquals([], $rowset);
+    }
+
+
     public function testGivenAnIdSHouldReturnValidData()
     {
         $expected = ['test' => 5];
