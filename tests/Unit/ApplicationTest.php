@@ -3,6 +3,17 @@
 class Application extends \PHPUnit_Framework_TestCase
 {
 
+    /**
+     * @expectedException Framework\Exceptions\PageNotFoundException
+     */
+    public function testGetInValidMethodShouldReturn404()
+    {
+        $server = ['REQUEST_URI' => '/notexists', 'REQUEST_METHOD' => 'POST'];
+        $app = new Framework\Application($server, [], []);
+        $app->run();
+    }
+
+
     public function testGetValidMethodShouldReturnValidOutput()
     {
         $server = ['REQUEST_URI' => '/home', 'REQUEST_METHOD' => 'GET'];

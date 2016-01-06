@@ -2,8 +2,13 @@
 
 namespace Framework;
 
+use Framework\Exceptions\PageNotFoundException as PageNotFound;
+
 class Application
 {
+
+    const NOT_FOUND = 404;
+
     private $routes = [
         'GET' => [],
         'POST' => [],
@@ -37,5 +42,10 @@ class Application
         if (\array_key_exists($this->server['REQUEST_URI'], $route)) {
             return $route[$this->server['REQUEST_URI']]();
         }
+
+        \http_response_code(self::NOT_FOUND);
+
+        throw new PageNotFound("Route not exists "
+            . $this->server['REQUEST_URI']);
     }
 }
