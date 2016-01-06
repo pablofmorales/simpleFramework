@@ -8,7 +8,7 @@ class Application extends \PHPUnit_Framework_TestCase
      */
     public function testGetInValidMethodShouldReturn404()
     {
-        $server = ['REQUEST_URI' => '/notexists', 'REQUEST_METHOD' => 'POST'];
+        $server = ['PATH_INFO' => '/notexists', 'REQUEST_METHOD' => 'POST'];
         $app = new Framework\Application($server, [], []);
         $app->run();
     }
@@ -16,18 +16,18 @@ class Application extends \PHPUnit_Framework_TestCase
 
     public function testGetValidMethodShouldReturnValidOutput()
     {
-        $server = ['REQUEST_URI' => '/home', 'REQUEST_METHOD' => 'GET'];
+        $server = ['PATH_INFO' => '/home', 'REQUEST_METHOD' => 'GET'];
         $app = new Framework\Application($server, [], []);
         $app->get('/home', function() {
             return 'test';
         });
-        $server = ['REQUEST_URI' => '/home', 'REQUEST_METHOD' => 'GET'];
+        $server = ['PATH_INFO' => '/home', 'REQUEST_METHOD' => 'GET'];
         $this->assertEquals('test', $app->run($server));
     }
 
     public function testPostValidMethodShouldReturnValidOutput()
     {
-        $server = ['REQUEST_URI' => '/home', 'REQUEST_METHOD' => 'POST'];
+        $server = ['PATH_INFO' => '/home', 'REQUEST_METHOD' => 'POST'];
         $app = new Framework\Application($server, [], []);
         $app->post('/home', function() {
             return 'test';
@@ -37,7 +37,7 @@ class Application extends \PHPUnit_Framework_TestCase
 
     public function testMethodNeedToReadPostAndGetParameters()
     {
-        $server = ['REQUEST_URI' => '/home', 'REQUEST_METHOD' => 'POST'];
+        $server = ['PATH_INFO' => '/home', 'REQUEST_METHOD' => 'POST'];
         $app = new Framework\Application($server, ['val' => 1], ['val' => 2]);
         $app->post('/home', function() use ($app) {
             $response = [
