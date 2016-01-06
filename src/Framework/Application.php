@@ -39,13 +39,13 @@ class Application
     public function run()
     {
         $route = $this->routes[$this->server['REQUEST_METHOD']];
-        if (\array_key_exists($this->server['REQUEST_URI'], $route)) {
-            return $route[$this->server['REQUEST_URI']]();
+        if (\array_key_exists($this->server['PATH_INFO'], $route)) {
+            return $route[$this->server['PATH_INFO']]();
         }
 
         \http_response_code(self::NOT_FOUND);
 
         throw new PageNotFound("Route not exists "
-            . $this->server['REQUEST_URI']);
+            . $this->server['PATH_INFO']);
     }
 }
