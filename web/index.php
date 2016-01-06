@@ -19,5 +19,13 @@ $app->get('/addresses/import', function () use ($app) {
     return $address->importFromCSV();
 });
 
+$app->get('/addresses', function () use ($app) {
+    $driver = new Framework\Storage\Drivers\Session();
+    $storage = new Framework\Storage($driver);
+
+    $addressModel = new Models\Addresses($storage);
+    $address = new Controllers\Addresses($addressModel);
+    return $address->getById($app);
+});
 
 echo $app->run();
