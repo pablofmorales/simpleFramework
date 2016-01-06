@@ -21,4 +21,9 @@ class Storage
     {
         return $this->adapter->fetchAll($name);
     }
+
+    public function fetch($name, $id)
+    {
+        return $this->adapter->fetch($name, $id);
+    }
 }

@@ -11,28 +11,30 @@ class Session
         return $_SESSION[self::STORAGE_NAME][$name];
     }
 
+    public function fetch($name, $id)
+    {
+        if (count($_SESSION[self::STORAGE_NAME][$name]) < $id) {
+            return [];
+        }
+        return $_SESSION[self::STORAGE_NAME][$name][$id];
+    }
+
     public function insert($name, $data)
     {
-        $data['id'] = $this->getNextId($name);
-        $_SESSION[self::STORAGE_NAME][$name][] = $data;
+        $index = $this->getIndex($name);
+        $_SESSION[self::STORAGE_NAME][$name][$index] = $data;
         return true;
     }
 
-    private function getNextId($name)
-    {
-        $current = $this->getLastId($name);
-        return ++ $current;
-    }
 
-    private function getLastId($name)
+    private function getIndex($name)
     {
         if (! isset($_SESSION[self::STORAGE_NAME][$name])) {
-            return 0;
+            return 1;
         }
 
-        $lastRow = \end($_SESSION[self::STORAGE_NAME][$name]);
-
-        return $lastRow['id'];
-
+        $elements = count($_SESSION[self::STORAGE_NAME][$name]);
+        return ++ $elements;
     }
+
 }
