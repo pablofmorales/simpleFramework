@@ -1,12 +1,8 @@
 <?php
 
-// autoloading
-// Dependency Injection
-// Controllers declarations
-// Routing
-// Request
-
 include '../src/Framework/Autoload.php';
+
+\session_start();
 
 $app = new Framework\Application($_SERVER, $_POST, $_GET);
 
@@ -14,7 +10,7 @@ $app->get('/home', function() use ($app) {
     return "test";
 });
 
-$app->get('/addresses', function () use ($app) {
+$app->get('/addresses/import', function () use ($app) {
     $driver = new Framework\Storage\Drivers\Session();
     $storage = new Framework\Storage($driver);
 
@@ -22,5 +18,6 @@ $app->get('/addresses', function () use ($app) {
     $address = new Controllers\Addresses($addressModel);
     return $address->importFromCSV();
 });
+
 
 echo $app->run();
