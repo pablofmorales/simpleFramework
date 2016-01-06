@@ -4,18 +4,19 @@ namespace Models;
 
 class Addresses
 {
-    const HARDCODED_CSV = 'data/addresses.csv';
+    protected $hardcodedCSV;
     private $storage;
 
     public function __construct($storage)
     {
         $this->storage = $storage;
+        $this->hardcodedCSV = '../data/addresses.csv';
     }
 
     public function import()
     {
 
-        $file = fopen(self::HARDCODED_CSV, 'r');
+        $file = fopen($this->hardcodedCSV, 'r');
         $i = 0;
         while (($line = fgetcsv($file)) !== FALSE) {
             $this->storage->insert('addresses', [

@@ -8,9 +8,14 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
         $expected = ['processed' => 4];
 
-        $storage = new \StorageDummy();
+        $storage = $this->getMockBuilder('Framework\Storage')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-        $addressModel = new Models\Addresses($storage);
+        $storage->method('insert')
+            ->willReturn(true);
+
+        $addressModel = new \AddressModelDummy($storage);
 
         $address = new Controllers\Addresses($addressModel);
 
@@ -21,12 +26,13 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 }
 
 
-class StorageDummy
+class AddressModelDummy extends Models\Addresses
 {
 
-    public function insert()
+    public function __construct($storage)
     {
-
-        return true;
+         parent::__construct($storage);
+         $this->hardcodedCSV = 'data/addresses.csv';
     }
+
 }

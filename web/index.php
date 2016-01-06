@@ -14,4 +14,13 @@ $app->get('/home', function() use ($app) {
     return "test";
 });
 
+$app->get('/addresses', function () use ($app) {
+    $driver = new Framework\Storage\Drivers\Session();
+    $storage = new Framework\Storage($driver);
+
+    $addressModel = new Models\Addresses($storage);
+    $address = new Controllers\Addresses($addressModel);
+    return $address->importFromCSV();
+});
+
 echo $app->run();
