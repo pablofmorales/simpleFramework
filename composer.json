@@ -1,0 +1,15 @@
+{
+    "name": "simpleframework",
+    "require": {
+        "php": ">=5.4.0"
+    },
+
+     "extra": {
+        "heroku": {
+            "document-root": "web",
+            "index-document": "index.php"
+        }
+    }
+
+
+}
