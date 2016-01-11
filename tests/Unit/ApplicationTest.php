@@ -2,6 +2,16 @@
 
 class Application extends \PHPUnit_Framework_TestCase
 {
+    public function testURIWithRegexShouldMatch()
+    {
+        $server = ['PATH_INFO' => '/test/users/1', 'REQUEST_METHOD' => 'GET'];
+        $app = new Framework\Application($server, [], []);
+        $app->get('/test/users/{id}', function() {
+            return 'test';
+        });
+        $response = $app->run();
+        $this->assertEquals('test',$response );
+    }
 
     /**
      * @expectedException Framework\Exceptions\PageNotFoundException
@@ -13,16 +23,14 @@ class Application extends \PHPUnit_Framework_TestCase
         $app->run();
     }
 
-
     public function testGetValidMethodShouldReturnValidOutput()
     {
-        $server = ['PATH_INFO' => '/home', 'REQUEST_METHOD' => 'GET'];
+        $server = ['PATH_INFO' => '/home/testGET', 'REQUEST_METHOD' => 'GET'];
         $app = new Framework\Application($server, [], []);
-        $app->get('/home', function() {
+        $app->get('/home/testGET', function() {
             return 'test';
         });
-        $server = ['PATH_INFO' => '/home', 'REQUEST_METHOD' => 'GET'];
-        $this->assertEquals('test', $app->run($server));
+        $this->assertEquals('test', $app->run());
     }
 
     public function testPostValidMethodShouldReturnValidOutput()

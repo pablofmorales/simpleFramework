@@ -12,12 +12,9 @@ class Addresses
         $this->address = $address;
     }
 
-    public function getById($request)
+    public function getById($id)
     {
-        $id = $request->getValues['id'];
-
         $response = $this->address->fetchById($id);
-
         return \json_encode($response);
     }
 

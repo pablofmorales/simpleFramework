@@ -6,6 +6,13 @@ class Session
 {
     const STORAGE_NAME = 'storage';
 
+    public function __construct()
+    {
+        if ( ! isset($_SESSION)) {
+            \session_start();
+        }
+    }
+
     public function fetchAll($name)
     {
         return $_SESSION[self::STORAGE_NAME][$name];
@@ -13,7 +20,8 @@ class Session
 
     public function fetch($name, $id)
     {
-        if (count($_SESSION[self::STORAGE_NAME][$name]) < $id) {
+        if (! isset($_SESSION[self::STORAGE_NAME])
+            || count($_SESSION[self::STORAGE_NAME][$name]) < $id) {
             return [];
         }
         return $_SESSION[self::STORAGE_NAME][$name][$id];
@@ -25,7 +33,6 @@ class Session
         $_SESSION[self::STORAGE_NAME][$name][$index] = $data;
         return true;
     }
-
 
     private function getIndex($name)
     {
