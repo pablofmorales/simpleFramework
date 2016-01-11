@@ -10,7 +10,9 @@ class Application extends \PHPUnit_Framework_TestCase
             return 'test';
         });
         $response = $app->run();
-        $this->assertEquals('test',$response );
+
+        $this->assertEquals(1, $app->getParameter());
+        $this->assertEquals('test',$response);
     }
 
     /**
@@ -18,16 +20,16 @@ class Application extends \PHPUnit_Framework_TestCase
      */
     public function testGetInValidMethodShouldReturn404()
     {
-        $server = ['PATH_INFO' => '/notexists', 'REQUEST_METHOD' => 'POST'];
+        $server = ['PATH_INFO' => '/notexists/123', 'REQUEST_METHOD' => 'POST'];
         $app = new Framework\Application($server, [], []);
         $app->run();
     }
 
     public function testGetValidMethodShouldReturnValidOutput()
     {
-        $server = ['PATH_INFO' => '/home/testGET', 'REQUEST_METHOD' => 'GET'];
+        $server = [null, 'REQUEST_METHOD' => 'GET'];
         $app = new Framework\Application($server, [], []);
-        $app->get('/home/testGET', function() {
+        $app->get('/', function() {
             return 'test';
         });
         $this->assertEquals('test', $app->run());
