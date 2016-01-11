@@ -6,13 +6,6 @@ class Session
 {
     const STORAGE_NAME = 'storage';
 
-    public function __construct()
-    {
-        if ( ! isset($_SESSION)) {
-            \session_start();
-        }
-    }
-
     public function fetchAll($name)
     {
         return $_SESSION[self::STORAGE_NAME][$name];
